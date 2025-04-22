@@ -1,3 +1,23 @@
+# Shift Mods ox_inventory redesign with rarity system
+
+in items.lua or weapons.lua determine rarity by these presets:
+- 'legendary'
+- 'rare'
+- 'common
+
+Example:
+['purple_quartz'] = {
+ 		label = 'Kvartsi',
+ 		weight = 350,
+ 		stack = true,
+ 		durability = nil,
+ 		rarity = 'legendary',
+ 	},
+
+![image](https://github.com/user-attachments/assets/d3ea53bd-746a-4417-8b38-da3d9b853215)
+
+# GET SUPPORT AT OUR DISCORD [JOIN](https://discord.com/invite/VzwZW74Cx9)
+
 # ox_inventory
 
 A complete inventory system for FiveM, implementing items, weapons, shops, and more without any strict framework dependency.
