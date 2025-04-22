@@ -119,22 +119,49 @@ const InventorySlot: React.ForwardRefRenderFunction<HTMLDivElement, SlotProps> =
 
   const refs = useMergeRefs([connectRef, ref]);
 
+const rarityClass = (() => {
+
+    if (!item.name) {
+        return '';
+    }
+
+    const itemData = Items[item.name] || { rarity: 'common' };
+    const rarity = item.metadata?.rarity || itemData.rarity;
+
+
+    switch (rarity) {
+        case 'legendary':
+            return 'rarity-legendary';
+        case 'rare':
+            return 'rarity-rare';
+        case 'uncommon':
+            return 'rarity-uncommon';
+        case 'common':
+            return 'rarity-common';
+        default:
+            return '';
+    }
+})();
+
   return (
-    <div
-      ref={refs}
-      onContextMenu={handleContext}
-      onClick={handleClick}
-      className="inventory-slot"
-      style={{
-        filter:
-          !canPurchaseItem(item, { type: inventoryType, groups: inventoryGroups }) || !canCraftItem(item, inventoryType)
-            ? 'brightness(80%) grayscale(100%)'
-            : undefined,
-        opacity: isDragging ? 0.4 : 1.0,
-        backgroundImage: `url(${item?.name ? getItemUrl(item as SlotWithItem) : 'none'}`,
-        border: isOver ? '1px dashed rgba(255,255,255,0.4)' : '',
-      }}
-    >
+  <div
+    ref={refs}
+    onContextMenu={handleContext}
+    onClick={handleClick}
+    className={`inventory-slot ${rarityClass}`}
+    style={{
+      position: 'relative',
+      filter:
+        !canPurchaseItem(item, { type: inventoryType, groups: inventoryGroups }) || !canCraftItem(item, inventoryType)
+          ? 'brightness(80%) grayscale(100%)'
+          : undefined,
+      opacity: isDragging ? 0.4 : 1.0,
+      backgroundImage: `url(${item?.name ? getItemUrl(item as SlotWithItem) : 'none'}`,
+      //backgroundSize: 'cover',
+      //zIndex: 1,
+      border: isOver ? '1px dashed rgba(255,255,255,0.4)' : '',
+    }}
+  >
       {isSlotWithItem(item) && (
         <div
           className="item-slot-wrapper"
