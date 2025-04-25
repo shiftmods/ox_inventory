@@ -28,21 +28,51 @@ const ItemNotification = React.forwardRef(
   (props: { item: ItemNotificationProps; style?: React.CSSProperties }, ref: React.ForwardedRef<HTMLDivElement>) => {
     const slotItem = props.item.item;
 
+    const rarityClass = (() => {
+      const itemData: { rarity?: string } = Items[slotItem.name] || {};
+      const rarity = slotItem.metadata?.rarity || itemData.rarity || '';
+
+      switch (rarity) {
+          case 'legendary':
+              return 'rarity-legendary';
+          case 'rare':
+              return 'rarity-rare';
+          case 'uncommon':
+              return 'rarity-uncommon';
+          case 'common':
+              return 'rarity-common';
+          default:
+              return '';
+      }
+    })();
+
     return (
       <div
         className="item-notification-item-box"
         style={{
-          backgroundImage: `url(${getItemUrl(slotItem) || 'none'}`,
+          backgroundImage: `url(${getItemUrl(slotItem) || 'none'})`,
           ...props.style,
         }}
         ref={ref}
       >
+        {}
+        <div className={`rarity-background ${rarityClass}`} style={{ zIndex: 0 }} />
+
+        {}
         <div className="item-slot-wrapper">
-          <div className="item-notification-action-box">
+          <div
+            className="item-notification-action-box"
+            style={{
+              zIndex: 2,
+              position: 'relative',
+            }}
+          >
             <p>{props.item.text}</p>
           </div>
-          <div className="inventory-slot-label-box">
-            <div className="inventory-slot-label-text">{slotItem.metadata?.label || Items[slotItem.name]?.label}</div>
+          <div className="inventory-slot-label-box" style={{ zIndex: 1 }}>
+            <div className="inventory-slot-label-text">
+              {slotItem.metadata?.label || Items[slotItem.name]?.label}
+            </div>
           </div>
         </div>
       </div>
